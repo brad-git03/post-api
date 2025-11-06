@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**") // Apply CORS to all endpoints under /api
-                .allowedOrigins("http://localhost:3000", "http://127.0.0.1:3000","http://localhost:8080" ,"http://localhost:5173/") // Replace with your frontend URL
+                .allowedOrigins("http://localhost:3000", "http://127.0.0.1:3000","http://localhost:8080" ,"http://localhost:5173/" , "https://post-api-tagm.onrender.com") // Replace with your frontend URL
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
     }
