@@ -10,17 +10,18 @@ public class WebConfig implements WebMvcConfigurer {
     // Configure CORS to allow a frontend application to access the API.
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // Apply CORS to all endpoints under /api
+        registry.addMapping("/api/**")
                 .allowedOrigins(
-                        "http://localhost:3000",
-                        "http://127.0.0.1:3000",
-                        "http://localhost:8080",
-                        "http://localhost:5173",           // removed trailing slash
-                        "https://post-api-tagm.onrender.com"
+                    "https://post-ui-cbja.onrender.com",   // <--- your frontend origin (exact)
+                    "http://localhost:3000",
+                    "http://127.0.0.1:3000",
+                    "http://localhost:8080",
+                    "http://localhost:5173",
+                    "https://post-api-tagm.onrender.com"    // if needed
                 )
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
-                .allowCredentials(true)   // set to true if you use cookies/auth credentials
-                .maxAge(3600);            // cache preflight for 1 hour
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }
