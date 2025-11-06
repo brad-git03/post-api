@@ -1,7 +1,8 @@
 package com.manalese.facebook;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 @Entity
 @Table(name = "facebook_posts")
@@ -14,33 +15,31 @@ public class FacebookPost {
     @Column(nullable = false)
     private String author;
 
-    @Lob // For potentially long content
+    @Lob
     @Column(nullable = false)
     private String content;
 
-    private String imageUrl; // Optional
+    private String imageUrl;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDateTime;
+    private OffsetDateTime createdDateTime;
 
     @Column(nullable = false)
-    private LocalDateTime modifiedDateTime;
+    private OffsetDateTime modifiedDateTime;
 
-    // --- Automatic Timestamp Management ---
     @PrePersist
     protected void onCreate() {
-        this.createdDateTime = LocalDateTime.now();
-        this.modifiedDateTime = LocalDateTime.now();
+        OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
+        this.createdDateTime = now;
+        this.modifiedDateTime = now;
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.modifiedDateTime = LocalDateTime.now();
+        this.modifiedDateTime = OffsetDateTime.now(ZoneOffset.UTC);
     }
 
-    // --- Standard Getters and Setters (REQUIRED) ---
-    // (You must include these for Spring/JPA to work)
-
+    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -53,9 +52,9 @@ public class FacebookPost {
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
-    public LocalDateTime getCreatedDateTime() { return createdDateTime; }
-    // No setter for createdDateTime as it's set in @PrePersist
+    public OffsetDateTime getCreatedDateTime() { return createdDateTime; }
+    // No setter for createdDateTime (set on persist)
 
-    public LocalDateTime getModifiedDateTime() { return modifiedDateTime; }
-    // No setter for modifiedDateTime as it's set in @PreUpdate
+    public OffsetDateTime getModifiedDateTime() { return modifiedDateTime; }
+    // No setter for modifiedDateTime (set on update)
 }
